@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       Admin.hasMany(models.Product, {
         foreignKey: 'admin_id'
       })
+
+      Admin.hasMany(models.Transaction, {
+        foreignKey: 'admin_id'
+      })
     }
   }
   Admin.init(
