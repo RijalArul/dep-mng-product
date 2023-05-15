@@ -27,7 +27,11 @@ class ProductController {
 
   static async getAll (req, res, next) {
     try {
-      const products = await Product.findAll()
+      const products = await Product.findAll({
+        where: {
+          status: 'active'
+        }
+      })
       successHandler(res, 200, 'Success Get Products', products)
     } catch (err) {
       next(err)
@@ -84,7 +88,9 @@ class ProductController {
           }
         }
       )
-      successHandler(res, 200, 'Success Update Product', null)
+
+      const product = await Product.findByPk(id)
+      successHandler(res, 200, 'Success Update Product', product)
     } catch (err) {
       next(err)
     }

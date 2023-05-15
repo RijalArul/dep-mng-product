@@ -31,6 +31,7 @@ this web application simple is for company that easily for the resource of his s
 1. git clone https://github.com/RijalArul/dep-mng-product
 2. cd dep-mng-product/server
 3. npm install
+4. nodemon bin/www
 
 ## API Documentation
 

@@ -12,7 +12,7 @@ const { productValidate } = require('../middleware/validate-input.middleware')
 router.get('/', ProductController.getAll)
 router.get('/:id', ProductController.get)
 router.use(authenthication)
-router.put('/:id', ProductController.delete)
+router.put('/:id/inactive', ProductController.delete)
 router.use(uploadSingle)
 router.post('/', imagePostValidation, productValidate, ProductController.create)
 router.put(

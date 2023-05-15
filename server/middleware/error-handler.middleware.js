@@ -14,6 +14,9 @@ function errorHandler (err, req, res, next) {
     // console.log(err)
     statusCode = 400
     message = 'Balance not allow under 0 value'
+  } else if (err.name === 'ProductInactive') {
+    statusCode = 400
+    message = 'Product is Inactive'
   } else if (
     err.name === 'Unauthenthicated' ||
     err.name === 'JsonWebTokenError'
