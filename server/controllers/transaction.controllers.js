@@ -20,30 +20,10 @@ class TransactionProduct {
   }
 }
 
-class ProductTransaction {
-  constructor (id, nama, desc, gambar, category_id, admin_id, stok) {
-    this.id = id
-    this.nama = nama
-    this.desc = desc
-    this.gambar = gambar
-    this.category_id = category_id
-    this.admin_id = admin_id
-    this.stok = stok
-  }
-}
-
-class ProductTrans {
-  constructor (id, stok) {
-    this.id = id
-    this.stok = stok
-  }
-}
-
 class TransactionController {
   static async create (req, res, next) {
     const t = await sequelize.transaction()
     try {
-      //   const result = await sequelize.transaction(async t => {
       let transactions = []
       for (let i = 0; i < req.body.length; i++) {
         const { quantity, type } = req.body[i]
@@ -56,9 +36,9 @@ class TransactionController {
         const balance =
           type === 'out' ? product.stok + quantity : product.stok + quantity
 
-        //   if (balance < 0) {
-        //     throw { err: 'SequelizeValidationError' }
-        //   }
+        if (balance < 0) {
+          throw { name: 'BalanceOutOfStock' }
+        }
         transactions.push(
           new TransactionProduct(
             product.nama,
@@ -86,11 +66,20 @@ class TransactionController {
         transaction: t
       })
 
-      successHandler(res, 201, 'Success All Transactions', newTransactions)
+      successHandler(res, 201, 'Success Create Transactions', newTransactions)
       await t.commit()
     } catch (err) {
       await t.rollback()
-      console.log(err)
+      next(err)
+    }
+  }
+
+  static async getAll (req, res) {
+    try {
+      const transactions = await Transaction.findAll()
+      successHandler(res, 200, 'Success Get All Transactions', transactions)
+    } catch (err) {
+      next(err)
     }
   }
 }

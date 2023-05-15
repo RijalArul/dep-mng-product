@@ -10,6 +10,10 @@ function errorHandler (err, req, res, next) {
   ) {
     statusCode = 400
     message = 'File Size Max 255KB Supported Files just between jpeg and png'
+  } else if (err.name === 'BalanceOutOfStock') {
+    // console.log(err)
+    statusCode = 400
+    message = 'Balance not allow under 0 value'
   } else if (
     err.name === 'Unauthenthicated' ||
     err.name === 'JsonWebTokenError'
