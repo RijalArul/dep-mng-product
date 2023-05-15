@@ -50,6 +50,19 @@ class AdminController {
     }
   }
 
+  static async get (req, res, next) {
+    try {
+      const admin = await Admin.findByPk(req.userData.id)
+      if (!admin) {
+        throw { name: 'RecordNotFound' }
+      }
+
+      successHandler(res, 200, 'Success Get Admin', admin)
+    } catch (err) {
+      next(err)
+    }
+  }
+
   static async update (req, res, next) {
     const {
       nama_depan,
@@ -59,8 +72,6 @@ class AdminController {
       jenis_kelamin,
       password
     } = req.body
-
-    const { id } = req.params
 
     try {
       await Admin.update(
@@ -74,7 +85,7 @@ class AdminController {
         },
         {
           where: {
-            id: id
+            id: req.userData.id
           },
           individualHooks: true
         }
@@ -82,11 +93,11 @@ class AdminController {
 
       const admin = await Admin.findOne({
         where: {
-          id: id
+          id: req.userData.id
         }
       })
 
-      successHandler(res, 200, admin, 'Update Admin Success')
+      successHandler(res, 200, 'Update Admin Success', admin)
     } catch (err) {
       next(err)
     }

@@ -7,7 +7,9 @@ const router = require('express').Router()
 
 router.post('/', adminValidate, AdminController.create)
 router.post('/login', AdminController.login)
-router.put('/:id', authenthication, adminValidate, AdminController.update)
+router.use(authenthication)
+router.get('/profile', AdminController.get)
+router.put('/', adminValidate, AdminController.update)
 router.use(errorHandler)
 
 module.exports = router

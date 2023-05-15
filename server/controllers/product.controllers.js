@@ -72,6 +72,23 @@ class ProductController {
       next(err)
     }
   }
+
+  static async delete (req, res, next) {
+    const { id } = req.params
+    try {
+      await Product.update(
+        { status: 'inactive' },
+        {
+          where: {
+            id: id
+          }
+        }
+      )
+      successHandler(res, 200, 'Success Update Product', null)
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = ProductController

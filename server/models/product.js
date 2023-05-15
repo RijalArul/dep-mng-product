@@ -44,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           min: 0
         }
+      },
+      status: {
+        type: DataTypes.ENUM('active', 'inactive')
       }
     },
     {

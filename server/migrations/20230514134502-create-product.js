@@ -42,6 +42,12 @@ module.exports = {
         onDelete: 'cascade',
         onUpdate: 'cascade'
       },
+      status: {
+        allowNull: false,
+        type: Sequelize.ENUM,
+        values: ['active', 'inactive'],
+        defaultValue: 'active'
+      },
       stok: {
         allowNull: false,
         type: Sequelize.INTEGER
